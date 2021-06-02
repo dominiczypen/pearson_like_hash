@@ -27,6 +27,8 @@ void hash(unsigned char* s, uint64_t* hash_p)
 {
 
    *hash_p = 0;
+  
+  int count_to_8 = 0; // to address the 8 byte-parts of uint64_t
 
   // walk through string and hash consecutive groups of <len> bytes
 
@@ -34,11 +36,17 @@ void hash(unsigned char* s, uint64_t* hash_p)
   {
      // Step 1 of Pearson's original algo: XOR what we have
      // with character just read: 
-    *(hash_p) = *(hash_p) ^ (*s);
+    *(hash_p) = *(hash_p) ^ ((*s) << (count_to_8 * 8);
+    count_to_8++;
 
      // Step 2 of Pearson: Bijection of the XOR'ed ex_ppression!
      // Instead of table lookup (original), do a rotation:
     bit_rotate(hash_p);
+                             
+    if (count_to_8 == 8)  // back to 0
+    { 
+      count_to_8 = 0;
+    } 
 
     s++; // walk 1 step further in string!
   } // end of loop
