@@ -36,7 +36,7 @@ void hash(unsigned char* s, uint64_t* hash_p)
   {
      // Step 1 of Pearson's original algo: XOR what we have
      // with character just read: 
-    *(hash_p) = *(hash_p) ^ ((*s) << (count_to_8 * 8);
+    *(hash_p) = *(hash_p) ^ ((*s) << (count_to_8 * 8));
     count_to_8++;
 
      // Step 2 of Pearson: Bijection of the XOR'ed ex_ppression!
@@ -57,7 +57,8 @@ int main()
   unsigned char my_string[]
       = "hell0 world, this is some lengthy string having hopefully \
          more than 32 lettaz, actually much more so that we can get \
-         some xor fun! abcdefghijklmnopqrstuvwxyz (so this gives \
+         some XOR fun! NEW BLAAAH \
+         abcdefghijklmnopqrstuvwxyz (so this gives \
          some rounds . 0123456789010111213141516171819";
   unsigned char* p;
   uint64_t x = 0;
