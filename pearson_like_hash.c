@@ -1,5 +1,4 @@
 /* Author: Dominic van der Zypen
- * Last modified: 2021-06-02
  * Pearson hashing with 2 changes
  * 1) possible for 256 bit or more, not just 8 bit (length is multiple of 8)
  * 2) No table lookup, but (simple) bijection with bit rotation and 
