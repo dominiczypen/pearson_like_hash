@@ -38,14 +38,14 @@ void hash(unsigned char* s, uint64_t* hash_p)
      // with character just read: 
     *(hash_p) = *(hash_p) ^ ((*s) << (count_to_8 * 8));
     count_to_8++;
-
-     // Step 2 of Pearson: Bijection of the XOR'ed ex_ppression!
-     // Instead of table lookup (original), do a rotation:
-    bit_rotate(hash_p);
                              
-    if (count_to_8 == 8)  // back to 0
+    if (count_to_8 == 8)  // uint64_t is "full"! -> do Pearson bijection
     { 
       count_to_8 = 0;
+      
+         // Step 2 of Pearson: Bijection of the XOR'ed ex_ppression!
+         // Instead of table lookup (original), do a rotation:
+      bit_rotate(hash_p);
     } 
 
     s++; // walk 1 step further in string!
