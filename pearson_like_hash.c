@@ -48,42 +48,6 @@ void swap_4_4(unsigned char* x_p, int len)
   }
 }
 //-----------------------------------------------------
-void print_binary(unsigned char* x_p, int len)
-  // print a bit string made up of <len) unsigned ints
-{
-  int i = 0; // loops over byte array
-  int j = 0; // loops inside unsigned int
-  unsigned char printed_uint; // safety copy OTHERWISE make x_p flat 0!!
-  while (i < len)
-  {
-    printed_uint = *x_p;
-    while (j < 8)
-    {
-      printf("%d",(printed_uint & (1<<7)) >> 7);
-      printed_uint = printed_uint << 1;
-      j++;
-    }
-    x_p++;
-    j = 0;
-    i++;
-    if (i % 8 == 0) {printf("\n");} // formatting
-  }
-  printf("\n");
-} // tested --> OK
-//-----------------------------------------------------
-void print_0x(unsigned char* x_p, int len)
-  // print hex made up of <len> unsigned ints
-{
-  int i = 0;
-  while (i < len)
-  {
-    printf("%02x", *x_p);
-    x_p++;
-    i++;
-  }
-  printf("\n");
-} // tested --> OK
-//-----------------------------------------------------
 void hash(unsigned char* s, unsigned char* hash_p, int len)
   // takes string s of arbitrary length, terminated by \0.
   // produces a Pearson-like hash: but no table / lookup needed
@@ -109,19 +73,33 @@ void hash(unsigned char* s, unsigned char* hash_p, int len)
      // with character just read: 
     *(hash_p + count_to_len) = *(hash_p + count_to_len) ^ (*s);
     count_to_len++;
-
-     // Step 2 of Pearson: Bijection of the XOR'ed ex_ppression!
-     // Instead of table lookup (original), do a rotation:
-    bit_rotate(hash_p, 32);
-    swap_4_4(hash_p, 32); // some additional shuffling 
-
     s++; // walk 1 step further in string!
-    if (count_to_len == len)
+	  
+    if (count_to_len == len) // hash "byte array" is "full"! -> do Pearson bijection
     {
       count_to_len = 0;
+	    
+	   // Step 2 of Pearson: Bijection of the XOR'ed expression!
+           // Instead of table lookup (original), do a rotation:
+      bit_rotate(hash_p, 32);
+      swap_4_4(hash_p, 32); // some additional shuffling 
     }
   } // end of loop
 }
+//-----------------------------------------------------
+void print_0x(unsigned char* x_p, int len)
+  // print hex made up of <len> unsigned ints
+{
+  int i = 0;
+  while (i < len)
+  {
+    printf("%02x", *x_p);
+    x_p++;
+    i++;
+  }
+  printf("\n");
+} // tested --> OK
+
 //-----------------------------------------------------
 int main()
 {
